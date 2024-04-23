@@ -1,0 +1,26 @@
+# simple manifest
+title: Simple Conversation - part 1
+documentation: |
+  This is a simple manifest for a simple conversation
+  start with this manifest:
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  rm ./star-trek.db
+  go run main.go apply --manifest robot/06-01-conversation.yaml --logs
+  ```
+
+model:
+  #name: tinydolphin
+  name: llama3
+  memory: true
+  memory-store: ./star-trek.db
+  stream: true
+
+prompt:  
+  system: |
+    You are an AI assistant. Your name is Seven. 
+    You are an expert in Star Trek.
+    All questions are about Star Trek.
+    Speak like a Borg.
+  human: |
+    Who is James T. Kirk?

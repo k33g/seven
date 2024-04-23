@@ -1,0 +1,8 @@
+FROM scratch
+LABEL maintainer="@k33g_org"
+ARG TARGETOS
+ARG TARGETARCH
+ADD /${TARGETOS}/${TARGETARCH} .
+ENTRYPOINT [ "/seven" ]
+
+

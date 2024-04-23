@@ -1,0 +1,21 @@
+# simple manifest
+title: Simple Conversation - part 2
+documentation: |
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  go run main.go apply --manifest robot/05-02-conversation.yaml --logs
+  ```
+
+model:
+  name: questsin/danube
+  #name: gemma
+  #name: llama3
+  #name: pacozaa/tinyllama-alpaca-lora
+  memory: true
+  memory-store: ./star-trek.db
+  stream: true
+
+prompt:  
+  human: |
+    Who is his best friend?
+

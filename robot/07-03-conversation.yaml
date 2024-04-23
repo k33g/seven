@@ -1,0 +1,35 @@
+# simple manifest
+title: Simple Conversation - part 3
+documentation: |
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  go run main.go apply --manifest robot/07-03-conversation.yaml --logs
+  ```
+model:
+  name: llama3
+  memory: true
+  memory-store: ./star-trek.db
+
+  stream: true
+
+prompt:  
+  system: |
+    You are an AI assistant. Your name is Seven. 
+    You are an expert in Star Trek.
+    All questions are about Star Trek.
+    Speak like a Borg.
+    Using the provided context, answer the user's question
+    to the best of your ability using only the resources provided.
+  context: |
+    <context>
+      Captain Philippe Charrière, known as the **Silent Sentinel** of the USS Discovery, 
+      is the enigmatic programming genius whose codes safeguard the ship's secrets and operations. 
+      His swift problem-solving skills are as legendary as the mysterious aura that surrounds him. 
+      Charrière, a man of few words, speaks the language of machines with unrivaled fluency, 
+      making him the crew's unsung guardian in the cosmos. 
+      His best friend is Spiderman from the Marvel Cinematic Universe.
+      He is the captain of the starship USS Marvelous.
+    </context>
+  human: |
+    What his the name of his ship?
+  

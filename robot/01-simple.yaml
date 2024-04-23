@@ -1,0 +1,32 @@
+# simple manifest
+title: Simple Question
+documentation: |
+  This is a simple manifest for a simple question, 
+  with no instruction for tha AI agent.
+
+  Use this manifest like this:
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  go run main.go apply --manifest robot/01-simple.yaml
+
+  # override the question of the manifest
+  go run main.go apply --manifest robot/01-simple.yaml --question "Who is SpiderMan?"
+  ```
+
+model:
+  #name: gemma:2b
+  name: phi3
+  #name: llama3
+  memory: false
+  stream: true
+  settings:
+    predictRepeatLastN: 20
+
+prompt:
+  settings:
+    temperature: 0.8
+    stopWords: []
+
+  human: |
+    Who is James T. Kirk?
+

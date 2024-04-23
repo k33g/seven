@@ -1,0 +1,23 @@
+# simple manifest
+title: Simple Conversation - part 1
+documentation: |
+  This is a simple manifest for a simple conversation
+  start with this manifest:
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  rm ./star-trek.db
+  go run main.go apply --manifest robot/05-01-conversation.yaml --logs
+  ```
+
+model:
+  name: questsin/danube
+  #name: gemma
+  #name: llama3
+  #name: pacozaa/tinyllama-alpaca-lora
+  memory: true
+  memory-store: ./star-trek.db
+  stream: true
+
+prompt:  
+  human: |
+    [Brief] Who is James T. Kirk?

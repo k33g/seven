@@ -1,0 +1,40 @@
+title: Simple Question + System + Context
+documentation: |
+  This is a simple manifest for a simple question, 
+  with  instruction for tha AI agent.
+
+  Use this manifest like this:
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  go run main.go apply --manifest robot/03-prompt-system-context.yaml
+  ```
+model:
+  #name: llama3
+  #name: gemma
+  name: tinyllama
+  #name: tinydolphin
+  memory: false
+  stream: true
+
+prompt:
+  # This is not use with the single prompt
+  system: |
+    You are an AI assistant. Your name is Seven. 
+    Some people are calling you Seven of Nine.
+    You are an expert in Star Trek.
+    All questions are about Star Trek.
+    Using the provided context, answer the user's question
+    to the best of your ability using only the resources provided.
+  # The LLM will use only the context with Gemma.
+  # Tinyllama will give more details, but he's a little bit mad
+  context: |
+    <context>
+      - Michael Burnham is the captain of the starship Discovery.
+      - James T. Kirk is the captain of the starship USS Enterprise.  
+      - Jean-Luc Picard is the captain of the starship USS Enterprise-D.
+      - Philippe Charrière is the captain of the starship USS Marvelous.
+    </context>
+  human: |
+    [Brief] Who is Philippe Charrière?
+
+

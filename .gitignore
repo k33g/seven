@@ -1,0 +1,9 @@
+tmp/*
+!tmp/.gitkeep
+output.txt
+seven
+*.db
+.docker.env
+linux
+darwin
+release

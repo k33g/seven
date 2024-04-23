@@ -1,0 +1,87 @@
+
+title: Use documents
+documentation: |
+  
+  start with this manifest:
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  # or use: --envfile ollama.env 
+  go run main.go apply --logs --manifest robot/08-functions.yaml
+  go run main.go apply --logs --manifest robot/08-functions.yaml --question "say bonjour to Philippe"
+  ```
+
+
+model:
+  name: deepseek-coder:1.3b # -> ok
+  #name: deepseek-coder:instruct # -> ok
+  #name: tinydolphin # -> ko
+  #name: gemma # -> ok
+  #name: gemma:2b # -> ok, but the names of the tools need to be really different (hello and hey are very similar)
+  #name: tinyllama # -> does not work (bad format or the response)
+  #name: llama3 # -> runtime error
+  memory: false
+  stream: true
+
+prompt:
+  system: |
+    You have access to the following functions:
+
+    {{ .functions }}
+
+    To use a function, respond with a JSON object with the following structure: 
+    {
+      "function": "<name of the function>",
+      "arguments": "<arguments of the above function>"
+    }
+  #context: |
+  #  <context>this is not used</context>
+  
+  # Make only a sentence to start a function
+  # Apparently you cannot use conditions in the prompt
+  # Don't use French
+  # say hello to 'Bob Morane'
+  # the name need to be between '' or ""
+  human: |
+    say good evening to 'Clint Eastwood
+
+# [In Layman’s Terms] say bonjour to "Bob Morane"
+# [In Layman’s Terms] say hello to "Clint Eastwood"
+# [In Layman’s Terms] can you say hello to "Clint Eastwood"
+# The sky is blue, and I'm happy, so I would like you make the addition of 12 34 56
+    
+# This is the list of tools available for the LLM
+functions:
+  - name: "hello"
+    description: "Say hello to a given person (the name of the person is the parameter)"
+    parameters: |
+      {
+        "type": "object",
+        "properties": {
+          "personName": {"type":"string", "description": "the name of the person"}
+        },
+        "required": ["personName"]
+      }
+    cmd: ./robot/hello.sh
+  - name: "goodEvening"
+    description: "Say good evening to a given person (the name of the person is the parameter)"
+    parameters: |
+      {
+        "type": "object",
+        "properties": {
+          "firstName": {"type":"string", "description": "the firstname of the person"}
+        },
+        "required": ["firstName"]
+      }
+    #cmd: ./robot/good-evening.sh
+    cmd: node ./robot/good-evening.js # TODO: cmd, filePath (for the script)
+  - name: "addNumbers"
+    description: "Make an addition of the given numbers"
+    parameters: |
+      {
+        "type": "object",
+        "properties": {
+          "numbers": {"type":"array", "description": "the list of the numbers to add"}
+        },
+        "required": ["numbers"]
+      }
+    cmd: ./robot/addNumbers.sh

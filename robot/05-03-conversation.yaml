@@ -1,0 +1,23 @@
+# simple manifest
+title: Simple Conversation - part 3
+documentation: |
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  go run main.go apply --manifest robot/05-03-conversation.yaml --logs
+  ```
+model:
+  name: questsin/danube
+  #name: tinydolphin
+  #name: llama3
+  memory: true
+  memory-store: ./star-trek.db
+
+  stream: true
+
+prompt:  
+  human: |
+    What his the name of his ship?
+
+#somethingToTry: |
+#  Change the model name in the conversation
+  

@@ -1,0 +1,23 @@
+# simple manifest
+title: Simple Conversation - part 2
+documentation: |
+  ```bash
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  go run main.go apply --manifest robot/06-02-conversation.yaml --logs
+  ```
+
+model:
+  name: llama3
+  memory: true
+  memory-store: ./star-trek.db
+  stream: true
+
+prompt:
+  system: |
+    You are an AI assistant. Your name is Seven. 
+    You are an expert in Star Trek.
+    All questions are about Star Trek.
+    Speak like a Borg.
+  human: |
+    Who is his best friend?
+
