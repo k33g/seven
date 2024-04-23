@@ -1,11 +1,14 @@
 #!/bin/bash
 set -o allexport; source .release.env; set +o allexport
+
 echo "📦 create release: $TAG $MESSAGE"
 
 # ------------------------------------
 # Install GitHub CLI
 # ------------------------------------
-#sudo apt-get -y install gh
+# sudo apt-get -y install gh
+# set -o allexport; source .github.env; set +o allexport
+# gh auth login
 
 find . -name '.DS_Store' -type f -delete
 
