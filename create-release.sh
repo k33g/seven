@@ -20,7 +20,8 @@ cp darwin/arm64/seven release/seven-darwin-arm64
 cp linux/amd64/seven release/seven-linux-amd64
 cp linux/arm64/seven release/seven-linux-arm64
 
-gh release create ${TAG} release/seven-darwin-amd64 release/seven-darwin-arm64 release/seven-linux-amd64 release/seven-linux-arm64 --title "seven ${TAG}" --notes "${MESSAGE}"
+gh release create ${TAG} release/seven-darwin-amd64 release/seven-darwin-arm64 release/seven-linux-amd64 release/seven-linux-arm64 --title "${MESSAGE}" 
+#--notes "${MESSAGE}"
 
 
 
