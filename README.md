@@ -109,7 +109,10 @@ Apply the prompt manifest:
 ```bash
 ./seven apply --manifest robot/02-prompt-system.yaml \
 --question "Who is Spiderman?"
-# as the AI agent is a Star Trek expert, it will answer that he doesn't know Spiderman, so change the system message:
+
+# as the AI agent is a Star Trek expert, 
+# "he" will answer that he doesn't know Spiderman, 
+# so change the system message:
 ./seven apply --manifest robot/02-prompt-system.yaml \
 --system "you are a Marvel expert" \
 --question "Who is Spiderman?"
