@@ -14,12 +14,12 @@ documentation: |
 
 model:
   #name: gemma:2b
-  name: llama3
+  #name: llama3
+  name: phi3
   memory: false
   stream: true
 
 prompt:
-  # This is not use with the single prompt
   system: |
     You are an AI assistant. Your name is Seven. 
     You are an expert in Star Trek.
