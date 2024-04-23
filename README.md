@@ -105,18 +105,18 @@ Apply the prompt manifest:
 ### Remarks
 
 - You can override the system message of the manifest with the `--system` option flag.
+  ```bash
+  ./seven apply --manifest robot/02-prompt-system.yaml \
+  --question "Who is Spiderman?"
 
-```bash
-./seven apply --manifest robot/02-prompt-system.yaml \
---question "Who is Spiderman?"
-
-# as the AI agent is a Star Trek expert, 
-# "he" will answer that he doesn't know Spiderman, 
-# so change the system message:
-./seven apply --manifest robot/02-prompt-system.yaml \
---system "you are a Marvel expert" \
---question "Who is Spiderman?"
-```
+  # as the AI agent is a Star Trek expert, 
+  # "he" will answer that he doesn't know Spiderman, 
+  # so change the system message:
+  ./seven apply --manifest robot/02-prompt-system.yaml \
+  --system "you are a Marvel expert" \
+  --question "Who is Spiderman?"
+  ```
+- You can use the `--logs` option flag to check the settings of the prompt and displays some logs.
 
 ## 🚧 This is a work in progress
 
