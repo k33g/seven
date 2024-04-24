@@ -1,3 +1,4 @@
+- update the version i, cmd/config/version.txt
 - update the version in .release.env
 - run docker-build.sh
 - install the gh CLI and authenticate:
