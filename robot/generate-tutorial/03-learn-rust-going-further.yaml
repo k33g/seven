@@ -1,0 +1,48 @@
+title: Learn Rust
+documentation: |
+  Use this manifest like this:
+  ```bash
+  seven apply \
+  --config sevenconfig.yaml \
+  --manifest 03-learn-rust-going-further.yaml \
+  --logs \
+  --output chapter-03.md
+  ```
+
+# Do not remove the memory we need it
+#before-script: |
+#  rm -f ./02-learn-rust.db
+
+after-script: |
+  echo "🎉 the chapter three is generated!"
+  echo "🌍 try the code with https://play.rust-lang.org"
+
+model:
+  name: deepseek-coder
+  memory: true
+  memory-store: ./02-learn-rust.db # this is the memory of the previous prompt
+  stream: true
+  
+  settings:
+    predictRepeatLastN: 30
+    # if == 0, for this prompt, the LLM will enter in a loop
+
+prompt:
+  settings:
+    temperature: 1 # if I increase the temperature, the answer seems to be more detailed
+    #stopWords: ["console"]
+  system: |
+    You are an AI assistant. Your name is Seven. 
+    You are an expert in programming languages.
+    Your answers should be in Markdown.
+    Be the most understandable and helpful for the user.
+  #context: |
+  #  <context>
+  #  </context>
+  human: |
+    [As a Recipe] Please add to the program a Human struct with the following fields:
+    - first_name
+    - last_name
+    - age
+
+

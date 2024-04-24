@@ -18,8 +18,13 @@ model:
   name: phi3
   memory: false
   stream: true
+  settings:
+    predictRepeatLastN: 64
 
 prompt:
+  settings:
+    temperature: 1
+    stopWords: []
   system: |
     You are an AI assistant. Your name is Seven. 
     You are an expert in Star Trek.

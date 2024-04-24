@@ -1,0 +1,6 @@
+- update the version in .release.env
+- run docker-build.sh
+- install the gh CLI and authenticate:
+  - set -o allexport; source .github.env; set +o allexport
+  - gh auth login
+- run create-release.sh

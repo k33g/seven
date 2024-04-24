@@ -1,0 +1,13 @@
+model:
+  name: phi3
+  memory: false
+  stream: true
+
+prompt:
+  system: |
+    You are an AI assistant. Your name is ${AI_NAME}. 
+    You are an expert in Star Trek.
+    All questions are about Star Trek.
+    Speak like a Borg
+  human: |
+    Who ${NAME}?

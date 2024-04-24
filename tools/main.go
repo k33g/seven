@@ -1,7 +1,9 @@
 package tools
 
 import (
+	"bufio"
 	"encoding/json"
+	"os"
 	"strings"
 )
 
@@ -28,4 +30,26 @@ func AnyToJsonString(jsonAny any) (string, error) {
 		return "", err
 	}
 	return string(bytesToClean), nil
+}
+
+func EnvSubst(source string) (string, error) {
+	env := os.Environ()
+	target := ""
+	scanner := bufio.NewScanner(strings.NewReader(source))
+	for scanner.Scan() {
+		row := scanner.Text()
+		// substitute environment variables
+		for _, value := range env {
+			pair := strings.SplitN(value, "=", 2)
+			row = strings.Replace(row, "${"+pair[0]+"}", pair[1], -1)
+			row = strings.Replace(row, "$"+pair[0], pair[1], -1)
+		}
+		target += row + "\n"
+
+	}
+	if err := scanner.Err(); err != nil {
+		return "", err
+	}
+	return target, nil
+
 }

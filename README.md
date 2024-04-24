@@ -7,14 +7,17 @@
 
 Download the binariy version:
 ```bash
-VERSION="v0.0.0" OS="darwin" ARCH="arm64"
+VERSION="v0.0.1" OS="darwin" ARCH="arm64"
 wget -O seven https://github.com/k33g/seven/releases/download/${VERSION}/seven-${OS}-${ARCH}
 chmod +x seven
 ```
 > - Find a version for a specific target architecture on the release page: https://github.com/k33g/seven/releases/tag/v0.0.0
 > - Seven exists for `darwin/amd64`, `darwin/arm64`, `linux/amd64`, `linux/arm64`
+> - **On macOs** copy the binary to `/usr/local/bin`
+> - **On Linux** copy the binary to `/usr/local/bin`
 
-Or use docker: `docker pull k33g/seven:0.0.0`
+
+Or use docker: `docker pull k33g/seven:0.0.1`
 
 ## Configuration
 
@@ -57,7 +60,7 @@ ollama pull phi3
 Then apply the prompt manifest with Seven:
 ```bash
 export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
-./seven apply --manifest robot/01-simple.yaml
+seven apply --manifest robot/01-simple.yaml
 ```
 
 Or you can apply it with the Seven Docker image:
@@ -66,7 +69,7 @@ docker run \
 --env SEVENCONFIG=./config/sevenconfig.yaml \
 -v $(pwd)/robot:/robot \
 -v $(pwd)/config:/config \
---rm k33g/seven:0.0.0 \
+--rm k33g/seven:0.0.1 \
 apply --manifest robot/01-simple.yaml
 ```
 
@@ -99,7 +102,7 @@ prompt:
 
 Apply the prompt manifest:
 ```bash
-./seven apply --manifest robot/02-prompt-system.yaml
+seven apply --manifest robot/02-prompt-system.yaml
 ```
 
 ### Remarks
@@ -112,11 +115,79 @@ Apply the prompt manifest:
   # as the AI agent is a Star Trek expert, 
   # "he" will answer that he doesn't know Spiderman, 
   # so change the system message:
-  ./seven apply --manifest robot/02-prompt-system.yaml \
+  seven apply --manifest robot/02-prompt-system.yaml \
   --system "you are a Marvel expert" \
   --question "Who is Spiderman?"
   ```
 - You can use the `--logs` option flag to check the settings of the prompt and displays some logs.
+
+## Environment variables substitution
+
+You can substitute environment variables in theses sections of the prompt manifest:
+- `prompt.system`
+- `prompt.human`
+- `prompt.context`
+
+```bash
+
+> `./robot/environment-variables/use-env-vars.yaml`
+```yaml
+model:
+  name: phi3
+  memory: false
+  stream: true
+
+prompt:
+  system: |
+    You are an AI assistant. Your name is ${AI_NAME}. 
+    You are an expert in Star Trek.
+    All questions are about Star Trek.
+    Speak like a Borg
+  human: |
+    Who ${NAME}?
+```
+
+Apply the manifest:
+```bash
+export AI_NAME="Seven of Nine"
+export NAME="Jean-Luc Picard"
+seven apply \
+  --config sevenconfig.yaml \
+  --manifest use-env-vars.yaml
+```
+
+## Before and After scripts
+
+You can execute scripts before and after the prompt completion:
+
+> Example:
+```yaml
+before-script: |
+  rm -f ./01-learn-rust.db
+
+after-script: |
+  echo "🎉 the chapter one is generated!"
+
+model:
+  name: deepseek-coder
+  memory: true
+  memory-store: ./01-learn-rust.db
+  stream: true
+  settings:
+    predictRepeatLastN: 64
+
+prompt:
+  settings:
+    temperature: 0.1
+    stopWords: []
+  system: |
+    You are an AI assistant. Your name is Seven. 
+    You are an expert in programming languages.
+    Your answers should be in Markdown.
+    Be the most understandable and helpful for the user.
+  human: |
+    Please, explain what is Rust.
+```
 
 ## 🚧 This is a work in progress
 

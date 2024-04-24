@@ -19,6 +19,10 @@ const (
 )
 // https://zhwt.github.io/yaml-to-go/
 type Manifest struct {
+	Title         string `yaml:"title"`
+	Documentation string `yaml:"documentation"`
+	BeforeScript  string `yaml:"before-script"`
+	AfterScript   string `yaml:"after-script"`
 	Model struct {
 		Name        string `yaml:"name"`
 		Memory      bool   `yaml:"memory"`

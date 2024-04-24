@@ -29,7 +29,37 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 	if err != nil {
 		log.Fatal("😡 error loading .yaml file: ", err)
 	}
-	
+
+	/*
+	  Environment variables substitution
+	*/
+	if manifest.Prompt.System != "" {
+		manifest.Prompt.System, err = tools.EnvSubst(manifest.Prompt.System)
+		if err != nil {
+			log.Fatal("😡 error with envsubst: ", err)
+		}
+	}
+	if manifest.Prompt.Human != "" {
+		manifest.Prompt.Human, err = tools.EnvSubst(manifest.Prompt.Human)
+		if err != nil {
+			log.Fatal("😡 error with envsubst: ", err)
+		}
+	}
+	if manifest.Prompt.Context != "" {
+		manifest.Prompt.Context, err = tools.EnvSubst(manifest.Prompt.Context)
+		if err != nil {
+			log.Fatal("😡 error with envsubst: ", err)
+		}
+	}
+
+	if manifest.BeforeScript != "" {
+		cmd := exec.Command("sh", "-c", manifest.BeforeScript)
+		err = cmd.Run()
+		if err != nil {
+			log.Fatal("😡 error running before script: ", err)
+		}
+	}
+
 	// Ollama Settings
 	if predictRepeatLastN != 64 {
 		manifest.Model.Settings.PredictRepeatLastN = predictRepeatLastN
@@ -44,7 +74,7 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 	// Prompt Settings
 	if temperature != 0 {
 		manifest.Prompt.Settings.Temperature = temperature
-	} 
+	}
 
 	if stopWords != "" {
 		manifest.Prompt.Settings.StopWords = strings.Split(stopWords, ",")
@@ -114,6 +144,7 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 		if err != nil {
 			log.Fatal("😡 error generating completion: ", err)
 		}
+
 	case types.SystemOnly:
 		log.Fatal("😡 prompt composed only by system message")
 	case types.ContextOnly:
@@ -126,6 +157,7 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 		if err != nil {
 			log.Fatal("😡 error generating completion: ", err)
 		}
+
 	case types.ContextAndHuman:
 		log.Fatal("😡 prompt composed only by context and human message")
 
@@ -264,6 +296,7 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 
 	// TODO:
 
+	// - some gardening 🌸
 	// - with summarization
 	// - with more settings
 
@@ -271,4 +304,14 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 		log.Fatal("😡 something bad is happening")
 	}
 
+	if manifest.AfterScript != "" {
+		//fmt.Println("🚀 after script:")
+		cmd := exec.Command("sh", "-c", manifest.AfterScript)
+		stdout, err := cmd.Output()
+		//err = cmd.Run()
+		if err != nil {
+			log.Fatal("😡 error running after script: ", err)
+		}
+		fmt.Println(string(stdout))
+	}
 }
