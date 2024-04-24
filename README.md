@@ -128,8 +128,6 @@ You can substitute environment variables in theses sections of the prompt manife
 - `prompt.human`
 - `prompt.context`
 
-```bash
-
 > `./robot/environment-variables/use-env-vars.yaml`
 ```yaml
 model:
