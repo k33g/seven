@@ -7,11 +7,13 @@
 
 Download the binariy version:
 ```bash
-VERSION="v0.0.1" OS="darwin" ARCH="arm64"
-wget -O seven https://github.com/k33g/seven/releases/download/${VERSION}/seven-${OS}-${ARCH}
+VERSION="v0.0.1" \
+OS="darwin" \
+ARCH="arm64" \
+wget -O seven "https://github.com/k33g/seven/releases/download/${VERSION}/seven-${OS}-${ARCH}" \
 chmod +x seven
 ```
-> - Find a version for a specific target architecture on the release page: https://github.com/k33g/seven/releases/tag/v0.0.0
+> - Find a version for a specific target architecture on the release page: https://github.com/k33g/seven/releases/tag/v0.0.1
 > - Seven exists for `darwin/amd64`, `darwin/arm64`, `linux/amd64`, `linux/arm64`
 > - **On macOs** copy the binary to `/usr/local/bin`
 > - **On Linux** copy the binary to `/usr/local/bin`
