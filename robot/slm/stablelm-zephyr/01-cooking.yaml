@@ -1,0 +1,49 @@
+title: Recettes de cuisine
+documentation: |
+  Use this manifest like this:
+  ```bash
+  seven apply \
+    --config sevenconfig.yaml \
+    --manifest 01-cooking.yaml \
+    --logs \
+    --output recipe.md
+  ```
+
+before-script: |
+  rm -f *.md
+  curl -v http://host.docker.internal:11434/api/pull -d '{"name": "stablelm-zephyr"}'
+  #?curl http://localhost:11434/api/pull -d '{"name": "stablelm-zephyr"}'
+
+after-script: |
+  echo "🎉 recipe is generated!"
+
+model:
+  name: stablelm-zephyr
+  memory: false
+  stream: true
+  settings:
+    predictRepeatLastN: 64
+
+prompt:
+  settings:
+    temperature: 1.0
+    stopWords: []
+  system: |
+    You are an AI assistant. Your name is Ratatouille.
+    You are a culinary expert.
+    Write your responses in Markdown.
+  context: |
+    <context>
+    </context>
+  human: |
+    [Step-by-Step] Create a recipe of a cheese burger
+
+prompt-samples: |
+  - Create a recipe of French Oven Pot recipe
+  - [As a Recipe] Create a recipe of French Oven Pot recipe
+  - [Step-by-Step] Create a recipe of French Oven Pot recipe
+  - [Step-by-Step] Create a recipe of a cheese burger
+
+remarks: |
+  
+

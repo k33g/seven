@@ -1,0 +1,50 @@
+title: Recettes de cuisine
+documentation: |
+  Use this manifest like this:
+  ```bash
+  seven apply \
+    --config sevenconfig.yaml \
+    --manifest 01-cooking.yaml \
+    --logs \
+    --output recipe.md
+  ```
+
+before-script: |
+  rm -f *.md
+  curl -v http://host.docker.internal:11434/api/pull -d '{"name": "stablelm2"}'
+  #?curl http://localhost:11434/api/pull -d '{"name": "stablelm2"}'
+  # TODO: env subst on script
+
+after-script: |
+  echo "🎉 recipe is generated!"
+
+model:
+  name: stablelm2
+  memory: false
+  stream: true
+  settings:
+    predictRepeatLastN: 64
+
+prompt:
+  settings:
+    temperature: 1.0
+    stopWords: []
+  system: |
+    Vous êtes un assistant IA. Votre nom est Ratatouille.
+    Vous êtes un expert culinaire.
+    Ecrivez vos réponses en markdown.
+  context: |
+    <context>
+    </context>
+  human: |
+    [As a Recipe] Crée une recette de Pot au Feu
+
+prompt-samples: |
+  - Crée une recette de Pot au Feu
+  - [As a Recipe] Crée une recette de Pot au Feu
+  - [Step-by-Step] Crée une recette de Pot au Feu
+
+remarks: |
+  - stablelm2 is bad with the French Oven Pot recipe
+  
+

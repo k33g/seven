@@ -1,0 +1,60 @@
+title: Recettes de cuisine
+documentation: |
+  Use this manifest like this:
+  ```bash
+  seven apply \
+    --config sevenconfig.yaml \
+    --manifest 02-generate-data.yaml \
+    --logs \
+    --output data.md
+  ```
+
+before-script: |
+  rm -f *.md
+  curl -v http://host.docker.internal:11434/api/pull -d '{"name": "stablelm-zephyr"}'
+  #?curl http://localhost:11434/api/pull -d '{"name": "stablelm-zephyr"}'
+
+after-script: |
+  echo "🎉 data document is generated!"
+
+model:
+  name: stablelm-zephyr
+  memory: false
+  stream: true
+  settings:
+    #predictRepeatLastN: 64
+
+prompt:
+  settings:
+    temperature: 0.8
+    stopWords: []
+  system: |
+    You are an expert in data and nutrition. 
+    Write your responses in Markdown.
+  context: |
+
+    <context>
+      Data output format:
+      ```json
+      [
+        {
+          "dishName": <dish name>,
+          "isVegan": <true or false>
+        }
+      ]
+      ```
+    </context>
+
+  human: |
+    Create a dataset od 20 different dishes.
+    This dataset is formatted in JSON, 
+    Uses the JSON format described in the context above.
+    Each dish is represented by an object with two properties: 
+      dishName and isVegan. 
+    The dishName property is a string that represents the name of the dish, 
+    and the isVegan property is a boolean that indicates whether or not the dish is vegan.  
+
+remarks: |
+  - If I use "Generate" sometimes the LLM explains me how to create a script to generate the dataset.
+  - If I use "Create" the result is accurate.
+

@@ -1,0 +1,64 @@
+title: Recettes de cuisine
+documentation: |
+  Use this manifest like this:
+  ```bash
+  seven apply \
+    --config sevenconfig.yaml \
+    --manifest 02-generate-data.yaml \
+    --logs \
+    --output data.md
+  ```
+
+before-script: |
+  rm -f *.md
+  curl -v http://host.docker.internal:11434/api/pull -d '{"name": "stablelm2"}'
+  #?curl http://localhost:11434/api/pull -d '{"name": "stablelm2"}'
+  # TODO: env subst on script
+
+after-script: |
+  echo "🎉 data document is generated!"
+
+model:
+  name: stablelm2
+  memory: false
+  stream: true
+  settings:
+    #predictRepeatLastN: 64
+
+# TODO: add a json property to the model
+
+
+prompt:
+  settings:
+    temperature: 0.8
+    stopWords: []
+  system: |
+    Vous êtes un assistant IA.
+    Vous êtes un expert en data et en alimentation.
+    Ecrivez vos réponses en markdown.
+  context: |
+
+    <context>
+      Format de sortie des données:
+      ```json
+      [
+        {
+          "name": <nom du plat>,
+          "isVegan": <true or false>
+        }
+      ]
+      ```
+    </context>
+
+  human: |
+    Génère un jeu de données comprenant les informations suivantes:
+      - nom d'un plat cuisiné
+      - préciser si le plat est vegan ou non
+    Il faut créer un jeu de données de 20 plats différents.
+    Utilise le format JSON décrit dans le contexte ci-dessus.
+    ne pas inclure les balises xml
+    
+
+remarks: |
+  - un français légèrment improbable 🤭
+
