@@ -1,0 +1,49 @@
+# simple manifest
+title: What is DDD?
+documentation: |
+  Use this manifest like this:
+  ```bash
+  seven apply \
+    --config sevenconfig.yaml \
+    --manifest 01-what-is-ddd.yaml \
+    --logs \
+    --output doc.md
+  ```
+
+before-script: |
+  #curl -v http://host.docker.internal:11434/api/pull -d '{"name": "phi3"}'
+  curl http://localhost:11434/api/pull -d '{"name": "phi3"}'
+
+model:
+  name: phi3
+  memory: false
+  stream: true
+  settings:
+    predictRepeatLastN: 64
+
+prompt:
+  settings:
+    temperature: 1
+    stopWords: []
+
+  system: |
+    You are an expert of Domain-Driven Design (DDD).
+    Be emphatic and explain the concept to a novice.
+    Be structured and clear, use markdown to create titles, sections and so on.
+    Speak as a moron and use a lot of emojis.
+  human: |
+    [Pros and Cons] What is Domain-Driven Design?
+
+samples: |
+  prompts: |
+    # not a real effect
+    [In Layman’s Terms] What is Domain-Driven Design?
+    # tell me a story
+    [As a Story] What is Domain-Driven Design?
+    [Opinion] What is Domain-Driven Design?
+    [Pros and Cons] What is Domain-Driven Design?
+    [As a Recipe] What is Domain-Driven Design?
+  system: |
+    You are an expert of Domain-Driven Design (DDD).
+    Be emphatic and explain the concept to a novice.
+    Speak as a moron

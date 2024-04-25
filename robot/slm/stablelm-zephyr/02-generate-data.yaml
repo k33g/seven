@@ -11,8 +11,8 @@ documentation: |
 
 before-script: |
   rm -f *.md
-  curl -v http://host.docker.internal:11434/api/pull -d '{"name": "stablelm-zephyr"}'
-  #?curl http://localhost:11434/api/pull -d '{"name": "stablelm-zephyr"}'
+  #curl -v http://host.docker.internal:11434/api/pull -d '{"name": "stablelm-zephyr"}'
+  curl http://localhost:11434/api/pull -d '{"name": "stablelm-zephyr"}'
 
 after-script: |
   echo "🎉 data document is generated!"
@@ -46,7 +46,7 @@ prompt:
     </context>
 
   human: |
-    Create a dataset od 20 different dishes.
+    Create a dataset of 20 different dishes.
     This dataset is formatted in JSON, 
     Uses the JSON format described in the context above.
     Each dish is represented by an object with two properties: 

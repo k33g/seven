@@ -9,14 +9,23 @@ documentation: |
   export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
   go run main.go apply --manifest robot/01-simple.yaml
 
+  # or
+  export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  seven apply --manifest robot/01-simple.yaml
+  ```
+
   # override the question of the manifest
   go run main.go apply --manifest robot/01-simple.yaml --question "Who is SpiderMan?"
   ```
 
+before-script: |
+  #curl -v http://host.docker.internal:11434/api/pull -d '{"name": "phi3"}'
+  curl http://localhost:11434/api/pull -d '{"name": "phi3"}'
+
 model:
   #name: gemma:2b
-  name: phi3
-  #name: llama3
+  #name: phi3
+  name: llama3
   memory: false
   stream: true
   settings:

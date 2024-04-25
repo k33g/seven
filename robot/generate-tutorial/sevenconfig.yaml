@@ -1,3 +1,4 @@
 config:
   ollama:
-    url: http://host.docker.internal:11434
+    url: http://localhost:11434
+    #url: http://host.docker.internal:11434

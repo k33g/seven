@@ -1,0 +1,63 @@
+# simple manifest
+title: Generate a Dockerfile
+documentation: |
+  Use this manifest like this:
+  ```bash
+  seven apply \
+    --config sevenconfig.yaml \
+    --manifest 01-dockerfile.yaml \
+    --logs \
+    --output doc.md
+  ```
+
+#before-script: |
+  #curl -v http://host.docker.internal:11434/api/pull -d '{"name": "phi3"}'
+  #curl http://localhost:11434/api/pull -d '{"name": "phi3"}'
+
+model:
+  #name: phi3
+  name: llama3
+  memory: false
+  stream: true
+  settings:
+    predictRepeatLastN: 64
+
+prompt:
+  settings:
+    temperature: 0.5
+    stopWords: []
+
+  system: |
+    You are an expert of Containers and Docker.
+    Be structured and clear, use markdown to create titles, sections and so on.
+  context: |
+    <context>
+      ├── config.env
+      ├── db-password.txt
+      ├── Dockerfile
+      ├── go.mod
+      ├── go.sum
+      ├── info.txt
+      ├── main.go
+      ├── public
+      │  ├── components
+      │  │  ├── App.js
+      │  │  └── Title.js
+      │  ├── css
+      │  │  ├── install-pico.md
+      │  │  └── pico.min.css
+      │  ├── index.html
+      │  └── js
+      │     ├── install-preact.md
+      │     ├── preact-htm.js
+      │     └── update.js
+      └── start.sh
+    </context>
+  human: |
+    [Step-by-Step] given the above context with the list of the files of my project, 
+    Create a Dockerfile that builds the project.
+    Use slim images and multi-stage builds.
+    The Dockerfile should be able to build the project and run it.
+    Be simple as possible.
+
+

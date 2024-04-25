@@ -23,12 +23,12 @@ model:
   stream: true
   
   settings:
-    predictRepeatLastN: 30
+    predictRepeatLastN: 64
     # if == 0, for this prompt, the LLM will enter in a loop
 
 prompt:
   settings:
-    temperature: 1 # if I increase the temperature, the answer seems to be more detailed
+    temperature: 0.8 # if I increase the temperature, the answer seems to be more detailed
     #stopWords: ["console"]
   system: |
     You are an AI assistant. Your name is Seven. 

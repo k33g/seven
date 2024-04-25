@@ -1,9 +1,8 @@
-Sure, here's an example of how you can write the simplest possible Hello World (also known as "hello world" in other contexts) program in Rust:
-
+Sure, here's how you can write a very basic "Hello World!" application using Rust:
 ```rust
 fn main() {
-    println!("Hello, World!"); // Prints "Hello, World" to the console. The string in parentheses is called an argument and it's a text we want our program print out with hello world before it
+    println!("Hello, world");
 }
 ``` 
-In this Rust code, `main` is the entry point of an application. Every program in rust must have a main function that's annotated with "fn" and returns `void` or at least the appropriate types for each argument. Here we return nothing (which is equivalent to returning an empty tuple in Python) and print out "Hello, World!"
+This is quite straightforward and simple for the beginning of learning rust or any other programming language. It prints out 'Hello, world' to console whenever it runs on your system (assuming you run this program from a file with that name). The function `main` in Rust serves as an entry point into our application which takes no parameters even if there are none passed when calling the main method of rust programs.
 
