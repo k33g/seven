@@ -7,19 +7,19 @@
 
 Download the binariy version:
 ```bash
-VERSION="v0.0.1"
+VERSION="v0.0.2"
 OS="darwin"
 ARCH="arm64"
 wget -O seven "https://github.com/k33g/seven/releases/download/${VERSION}/seven-${OS}-${ARCH}"
 chmod +x seven
 ```
-> - Find a version for a specific target architecture on the release page: https://github.com/k33g/seven/releases/tag/v0.0.1
+> - Find a version for a specific target architecture on the release page: https://github.com/k33g/seven/releases/tag/v0.0.2
 > - Seven exists for `darwin/amd64`, `darwin/arm64`, `linux/amd64`, `linux/arm64`
 > - **On macOs** copy the binary to `/usr/local/bin`
 > - **On Linux** copy the binary to `/usr/local/bin`
 
 
-Or use docker: `docker pull k33g/seven:0.0.1`
+Or use docker: `docker pull k33g/seven:0.0.2`
 
 ## Configuration
 
@@ -71,7 +71,7 @@ docker run \
 --env SEVENCONFIG=./config/sevenconfig.yaml \
 -v $(pwd)/robot:/robot \
 -v $(pwd)/config:/config \
---rm k33g/seven:0.0.1 \
+--rm k33g/seven:0.0.2 \
 apply --manifest robot/01-simple.yaml
 ```
 

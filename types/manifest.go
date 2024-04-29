@@ -15,6 +15,8 @@ const (
 
 	Functions
 
+	Summary
+
 	NoComposition
 )
 // https://zhwt.github.io/yaml-to-go/
@@ -52,11 +54,24 @@ type Manifest struct {
 		Parameters  string `yaml:"parameters"`
 		Cmd         string `yaml:"cmd"`
 	} `yaml:"functions"`
+	Summary struct {
+		Chunk struct {
+			Size    int `yaml:"size"`
+			Overlap int `yaml:"overlap"`
+		} `yaml:"chunk"`
+		Splitter string `yaml:"splitter"`
+		Document string `yaml:"document"`
+	} `yaml:"summary"`
 }
 
 
 func (m Manifest) PromptComposedBy() PromptComposition {
 
+	
+	if m.Summary.Splitter != "" {
+		return Summary
+	}
+	
 	if m.Functions != nil {
 		return Functions
 	}

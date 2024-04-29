@@ -145,6 +145,12 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 			log.Fatal("😡 error generating completion: ", err)
 		}
 
+	case types.Summary:
+		_, err := GenerateSummary(ctx, llm, manifest, showLogs, outputPath)
+		if err != nil {
+			log.Fatal("😡 error generating summary: ", err)
+		}
+
 	case types.SystemOnly:
 		log.Fatal("😡 prompt composed only by system message")
 	case types.ContextOnly:
@@ -184,7 +190,7 @@ func Run(manifestPath string, envfilePath string, question string, outputPath st
 		}
 
 	case types.Functions:
-
+		// Externalise this part
 		/*
 			if showLogs {
 				fmt.Println("🧮 functions:")

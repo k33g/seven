@@ -19,8 +19,8 @@ documentation: |
   ```
 
 before-script: |
-  #curl -v http://host.docker.internal:11434/api/pull -d '{"name": "phi3"}'
-  curl http://localhost:11434/api/pull -d '{"name": "phi3"}'
+  curl -v http://host.docker.internal:11434/api/pull -d '{"name": "phi3"}'
+  #curl http://localhost:11434/api/pull -d '{"name": "phi3"}'
 
 model:
   #name: gemma:2b
