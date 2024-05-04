@@ -1,0 +1,73 @@
+title: Play with the scripts
+documentation: |
+  Use this manifest like this:
+  ```bash
+  go run main.go apply --logs \
+  --config robot/scripts/sevenconfig.yaml \
+  --output robot/scripts/output.txt \
+  --manifest robot/scripts/prompt-system-context.yaml
+
+  seven apply --logs \
+  --config robot/scripts/sevenconfig.yaml \
+  --output robot/scripts/output.txt \
+  --manifest robot/scripts/prompt-system-context.yaml
+  ```
+
+model:
+  #name: tinyllama
+  name: tinydolphin
+  memory: false
+  stream: true
+
+variables:
+  - MESSAGE=Your name is Seven
+  - CHARACTER=KeegOrg
+  - AUTHOR=@k33g_org
+
+before-script: |
+
+  # Load the LLM using the predefined variables:
+  echo "🦙 loading ${SEVEN_MODEL_NAME} from ${SEVEN_OLLAMA_URL}"
+  DATA="{\"name\": \"${SEVEN_MODEL_NAME}\"}"
+  echo "🦙 DATA: ${DATA}"
+  curl -v ${SEVEN_OLLAMA_URL}/api/pull -d "${DATA}"
+
+  echo "🟢 MESSAGE: ${MESSAGE}"
+
+  echo "GREETING=🎉🎉🎉🎉🎉" > tmp.seven.env
+
+prompt:
+  system: |
+    You are an AI assistant. ${MESSAGE}. 
+    Some people are calling you Seven of Nine.
+    You are an expert in Star Trek.
+    All questions are about Star Trek.
+    Using the provided context, answer the user's question
+    to the best of your ability using only the resources provided.
+    Speak like a Borg.
+  context: |
+    <context>
+      - Michael Burnham is the captain of the starship Discovery.
+      - James T. Kirk is the captain of the starship USS Enterprise.  
+      - Jean-Luc Picard is the captain of the starship USS Enterprise-D.
+      - KeegOrg is the captain of the starship USS Marvelous.
+      - ${GREETING} is a greeting.
+    </context>
+  human: |
+    [Brief] Who is ${CHARACTER}?
+
+after-script: |
+  echo "🎉 answer is generated!"
+  echo "📝 Content of output.txt:"
+  cat robot/scripts/output.txt
+  echo ""
+  echo "🤖 Content of SEVEN_COMPLETION:"
+  echo "${SEVEN_COMPLETION}"
+  echo "Seven version: $(seven version)"
+  echo "🟣 MESSAGE: ${MESSAGE}"
+  echo "🟣 AUTHOR: ${AUTHOR}"
+  echo "🟣 CHARACTER: ${CHARACTER}"
+
+  echo "GREETING: ${GREETING}"
+
+  # TODO: seven call <plugin-name>

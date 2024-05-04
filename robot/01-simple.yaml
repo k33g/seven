@@ -19,13 +19,20 @@ documentation: |
   ```
 
 before-script: |
-  curl -v http://host.docker.internal:11434/api/pull -d '{"name": "phi3"}'
+  # usage of the Predefined variables:
+
+  echo "🦙 loading ${SEVEN_MODEL_NAME} from ${SEVEN_OLLAMA_URL}"
+  DATA="{\"name\": \"${SEVEN_MODEL_NAME}\"}"
+  echo "🦙 DATA: ${DATA}"
+  curl -v ${SEVEN_OLLAMA_URL}/api/pull -d "${DATA}"
+
+  #curl -v http://host.docker.internal:11434/api/pull -d '{"name": "phi3"}'
   #curl http://localhost:11434/api/pull -d '{"name": "phi3"}'
 
 model:
   #name: gemma:2b
-  #name: phi3
-  name: llama3
+  name: phi3
+  #name: llama3
   memory: false
   stream: true
   settings:

@@ -2,7 +2,4 @@ config:
   ollama:
     #url: http://localhost:11434
     url: http://host.docker.internal:11434
-
-# Predefined variable:
-# SEVEN_OLLAMA_URL==http://host.docker.internal:11434
-
+    #url: http://bob.local:11434

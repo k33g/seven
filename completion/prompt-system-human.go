@@ -1,4 +1,4 @@
-package cli
+package completion
 
 import (
 	"context"
@@ -12,10 +12,9 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-func GenerateCompletionWithSystemContextHumanPrompt(ctx context.Context, llm *ollama.LLM, manifest types.Manifest, history *memory.ChatMessageHistory, memDb *bbolt.DB, outputPath string, showLogs bool) (string, error) {
+func GenerateWithSystemHumanPrompt(ctx context.Context, llm *ollama.LLM, manifest types.Manifest, history *memory.ChatMessageHistory, memDb *bbolt.DB, outputPath string, showLogs bool) (string, error) {
 	if showLogs {
 		fmt.Println("🤖 system:", manifest.Prompt.System)
-		fmt.Println("📝 context:", manifest.Prompt.Context)
 		fmt.Println("🤓 human:", manifest.Prompt.Human)
 	}
 
@@ -24,18 +23,14 @@ func GenerateCompletionWithSystemContextHumanPrompt(ctx context.Context, llm *ol
 		nil,
 	)
 
-	contextPromptTemplate := prompts.NewSystemMessagePromptTemplate(
-		manifest.Prompt.Context,
-		nil,
-	)
 	humanPromptTemplate := prompts.NewHumanMessagePromptTemplate(
 		manifest.Prompt.Human,
 		nil,
 	)
+
 	templateList := []prompts.MessageFormatter{}
 
 	templateList = append(templateList, systemPromptTemplate)
-	templateList = append(templateList, contextPromptTemplate)
 
 	// add memory here and insert history
 	if manifest.Model.Memory {
@@ -87,5 +82,4 @@ func GenerateCompletionWithSystemContextHumanPrompt(ctx context.Context, llm *ol
 		}
 	}
 	return answer, nil
-
 }

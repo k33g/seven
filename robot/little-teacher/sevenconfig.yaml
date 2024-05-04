@@ -1,0 +1,11 @@
+config:
+  ollama:
+    # This is a RPI 5, with 8GB RAM
+    #url: http://bob.local:11434
+
+    # This is a RPI 5, with 8GB RAM
+    url: http://robby.local:11434
+
+    # This is a MacBook Pro M1, with 32GB RAM
+    #url: http://host.docker.internal:11434
+

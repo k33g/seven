@@ -83,6 +83,7 @@ apply --manifest robot/01-simple.yaml
   ```
 - You can specify the path of the config file with the `--config` option flag.
 - You can create a text file with the result of the completion with the `--output` option flag.
+- ✋ You can override the LLM name with the `--llm` option flag.
 
 ## Add a system message to the manifest
 
@@ -121,7 +122,19 @@ seven apply --manifest robot/02-prompt-system.yaml
   --system "you are a Marvel expert" \
   --question "Who is Spiderman?"
   ```
+- ✋ You can override the LLM name with the `--llm` option flag.
 - You can use the `--logs` option flag to check the settings of the prompt and displays some logs.
+
+## Define variables in the manifest
+
+```yaml
+variables:
+  - MESSAGE="I'm Seven of Nine"
+  - DIRECTORY="robot/scripts"
+  - CHARACTER="Jean-Luc Picard"
+  - AUTHOR="@k33g_org"
+```
+
 
 ## Environment variables substitution
 
@@ -188,6 +201,34 @@ prompt:
   human: |
     Please, explain what is Rust.
 ```
+
+
+### Use the exported variables in `before-script` and `after-script`
+
+To make available an environement variable created in the `before-script` scripts, you can use the **`tmp.seven.env`** file:
+
+```yaml
+before-script: |
+  echo "GREETING=🎉🎉🎉🎉🎉" > tmp.seven.env
+```
+Then, you can use the `GREETING` environment variable with the variables substitution and in the `after-script` scripts:
+```yaml
+after-script: |
+  echo "GREETING: ${GREETING}"
+```
+
+**Remarks**:
+- `tmp.seven.env` will be deleted after the `after-script` script.
+- `tmp.seven.env` is located in the execution directory.
+> 🚧 this could change in the future.
+
+
+## Predefined variables
+
+- `SEVEN_OLLAMA_URL`: it takes the value of the `config.ollama.url` field in the `sevenconfig.yaml` file.
+- `SEVEN_MODEL_NAME`: it takes the value of the `model.name` field in the yaml manifest file.
+- `SEVEN_COMPLETION`: it takes the result of the completion of the LLM.
+
 
 ## 🚧 This is a work in progress
 

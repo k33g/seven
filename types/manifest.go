@@ -62,8 +62,8 @@ type Manifest struct {
 		Splitter string `yaml:"splitter"`
 		Document string `yaml:"document"`
 	} `yaml:"summary"`
+	Variables    []string `yaml:"variables"`
 }
-
 
 func (m Manifest) PromptComposedBy() PromptComposition {
 

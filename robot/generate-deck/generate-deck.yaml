@@ -1,0 +1,43 @@
+title: Generate a Deck
+documentation: |
+  🚧 this is a work in progress
+
+model:
+  #name: llama3
+  name: phi3
+  #name: dolphin-llama3
+  memory: false
+  stream: true
+  settings:
+    predictRepeatLastN: 64
+
+before-script: |
+  # Load the LLM using the predefined variables:
+  echo "🦙 loading ${SEVEN_MODEL_NAME} from ${SEVEN_OLLAMA_URL}"
+  DATA="{\"name\": \"${SEVEN_MODEL_NAME}\"}"
+  echo "🦙 DATA: ${DATA}"
+  curl -v ${SEVEN_OLLAMA_URL}/api/pull -d "${DATA}"
+
+prompt:
+  settings:
+    temperature: 0.8
+    stopWords: []
+
+  system: |
+    You are an expert of Generative AI.
+    Be structured and clear, use markdown to create titles, sections and so on.
+  context: |
+    <context>
+      When you create slides for a deck, use the following format:
+      For every slide of the deck use this template:
+      <template>
+        ---
+        # <title of the slide>
+        <content of the slide>
+      </template>
+    </context>
+  human: |
+    [Step-by-Step] given the above context, create a deck of 10 slides about the following topic:
+    How to prevent the "rise of the machines" by mastering the use of generative AI.
+    
+

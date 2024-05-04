@@ -1,4 +1,4 @@
-package cli
+package completion
 
 import (
 	"context"
@@ -11,14 +11,13 @@ import (
 	"github.com/tmc/langchaingo/schema"
 )
 
-func GenerateCompletionWithStuffDocuments(ctx context.Context, llm *ollama.LLM, manifest types.Manifest, showLogs bool, outputPath string) (string, error) {
+func GenerateWithStuffDocuments(ctx context.Context, llm *ollama.LLM, manifest types.Manifest, showLogs bool, outputPath string) (string, error) {
 	// ! conversational memory not implemented for this part
 	if showLogs {
 		fmt.Println("🤖 system:", manifest.Prompt.System)
 		fmt.Println("📝 context:", manifest.Prompt.Context)
 		fmt.Println("🤓 human:", manifest.Prompt.Human)
 	}
-
 
 	/*
 		type Document struct {
@@ -80,7 +79,7 @@ func GenerateCompletionWithStuffDocuments(ctx context.Context, llm *ollama.LLM, 
 
 	prompt := prompts.NewChatPromptTemplate(templateList)
 
-	completion, err := model.ChainsCall(ctx, llm, manifest , prompt , docs, manifest.Model.Stream, outputPath)
+	completion, err := model.ChainsCall(ctx, llm, manifest, prompt, docs, manifest.Model.Stream, outputPath)
 	if err != nil {
 		return "", err
 	}

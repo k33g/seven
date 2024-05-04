@@ -4,3 +4,6 @@ like something calling the GitLab API
 pre
 post
 ...
+
+idea: test plugins: calculate the levenstein distance between two the completion result and a specific string
+

@@ -1,8 +1,9 @@
-package cli
+package config
 
 import (
 	"os"
 	"seven/types"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -25,4 +26,21 @@ func YamlStringToManifest(yamlString string) (types.Manifest, error) {
 		return types.Manifest{}, err
 	}
 	return manifest, nil
+}
+
+func YamlFileToSeven(yamlFile string) (types.Seven, error) {
+	yamlBytes, err := os.ReadFile(yamlFile)
+	if err != nil {
+		return types.Seven{}, err
+	}
+	return YamlStringToSeven(string(yamlBytes))
+}
+
+func YamlStringToSeven(yamlString string) (types.Seven, error) {
+	var sevenConfig types.Seven
+	err := yaml.Unmarshal([]byte(yamlString), &sevenConfig)
+	if err != nil {
+		return types.Seven{}, err
+	}
+	return sevenConfig, nil
 }

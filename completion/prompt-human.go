@@ -1,4 +1,4 @@
-package cli
+package completion
 
 import (
 	"context"
@@ -12,16 +12,11 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-func GenerateCompletionWithSystemHumanPrompt(ctx context.Context, llm *ollama.LLM, manifest types.Manifest, history *memory.ChatMessageHistory, memDb *bbolt.DB, outputPath string, showLogs bool) (string, error) {
+func GenerateWithHumanPrompt(ctx context.Context, llm *ollama.LLM, manifest types.Manifest, history *memory.ChatMessageHistory, memDb *bbolt.DB, outputPath string, showLogs bool) (string, error) {
+
 	if showLogs {
-		fmt.Println("🤖 system:", manifest.Prompt.System)
 		fmt.Println("🤓 human:", manifest.Prompt.Human)
 	}
-
-	systemPromptTemplate := prompts.NewSystemMessagePromptTemplate(
-		manifest.Prompt.System,
-		nil,
-	)
 
 	humanPromptTemplate := prompts.NewHumanMessagePromptTemplate(
 		manifest.Prompt.Human,
@@ -29,8 +24,6 @@ func GenerateCompletionWithSystemHumanPrompt(ctx context.Context, llm *ollama.LL
 	)
 
 	templateList := []prompts.MessageFormatter{}
-
-	templateList = append(templateList, systemPromptTemplate)
 
 	// add memory here and insert history
 	if manifest.Model.Memory {
@@ -72,7 +65,6 @@ func GenerateCompletionWithSystemHumanPrompt(ctx context.Context, llm *ollama.LL
 		//log.Fatal("😡 ", err)
 		return "", err
 	}
-
 	// Save the history data to the database
 	if manifest.Model.Memory {
 		err := model.SaveMessagesToHistory(manifest.Prompt.Human, answer, false, memDb)

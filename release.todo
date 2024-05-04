@@ -6,3 +6,10 @@
   - set -o allexport; source .github.env; set +o allexport
   - gh auth login
 - run create-release.sh
+
+
+What's new:
+- ✋ You can override the LLM name with the `--llm` option flag.
+- New predefined variable: `SEVEN_COMPLETION`: it takes the result of the completion of the LLM.
+- `variables` section in the manifest.
+- tmp.seven.env

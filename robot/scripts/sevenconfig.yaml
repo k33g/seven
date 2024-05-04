@@ -1,0 +1,7 @@
+config:
+  ollama:
+    url: http://host.docker.internal:11434
+    #url: http://bob.local:11434
+    #url: http://robby.local:11434
+
+# ex: SEVEN_OLLAMA_URL=http://localhost:11434

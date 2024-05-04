@@ -5,17 +5,30 @@ documentation: |
   start with this manifest:
   ```bash
   export SEVENCONFIG=$(pwd)/config/sevenconfig.yaml
+  # export SEVENCONFIG=$(pwd)/config/sevenconfig.bob.yaml
+  # export SEVENCONFIG=$(pwd)/config/sevenconfig.robby.yaml
   # or use: --envfile ollama.env 
   go run main.go apply --logs --manifest robot/12-summary.yaml
-
   ```
 
 model:
-  name: gemma
+  name: tinyllama
+  #name: gemma:2b
   #name: tinyllama
   stream: true
   #settings:
   #  predictRepeatLastN: 64
+
+before-script: |
+  # Load the LLM using the predefined variables:
+  echo "🦙 loading ${SEVEN_MODEL_NAME} from ${SEVEN_OLLAMA_URL}"
+  DATA="{\"name\": \"${SEVEN_MODEL_NAME}\"}"
+  echo "🦙 DATA: ${DATA}"
+  curl -v ${SEVEN_OLLAMA_URL}/api/pull -d "${DATA}"
+
+  # pre-start the LLM
+  DATA="{\"model\": \"${SEVEN_MODEL_NAME}\", \"prompt\": \"hello\", \"stream\": true}"
+  curl ${SEVEN_OLLAMA_URL}/api/generate -d "${DATA}"
 
 summary:
   chunk:
@@ -45,6 +58,9 @@ summary:
     Lieutenant KeegOrg, known as the **Silent Sentinel** of the USS Discovery, 
     is the enigmatic programming genius whose codes safeguard the ship's secrets and operations. 
     His swift problem-solving skills are as legendary as the mysterious aura that surrounds him. 
-    Charrière, a man of few words, speaks the language of machines with unrivaled fluency, 
+    KeegOrg, a man of few words, speaks the language of machines with unrivaled fluency, 
     making him the crew's unsung guardian in the cosmos. His best friend is Spiderman from the Marvel Cinematic Universe.
 
+after-script: |
+  echo "🤖 Content of SEVEN_COMPLETION:"
+  echo "${SEVEN_COMPLETION}"

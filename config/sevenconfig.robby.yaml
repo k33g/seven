@@ -1,0 +1,6 @@
+config:
+  ollama:
+    url: http://robby.local:11434
+
+# Predefined variable:
+# SEVEN_OLLAMA_URL==http://robby.local:11434
